@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMFX-RAW | Noir Portfolio</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;600;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- أكواد CSS (الألوان والتنسيق) --- */
+        :root {
+            --bg-color: #000000; /* أسود قاتم جداً خلفية */
+            --text-color: #ffffff; /* أبيض ناصع للنصوص */
+            --accent-color: #ffffff; /* أبيض كألوان تأكيدية */
+            --dim-text: #666666; /* رمادي خفيف للنصوص الثانوية */
+            --font-main: 'Inter', sans-serif;
+            --font-logo: 'Syncopate', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* القائمة العلوية */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 6%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            /* تأثير زجاجي خفيف عند التمرير */
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-family: var(--font-logo);
+            font-weight: 700;
+            letter-spacing: 6px;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .logo span { color: var(--dim-text); }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 300;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--dim-text);
+        }
+
+        /* قسم الترحيب الرئيسي */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 10%;
+        }
+
+        .hero h1 {
+            font-family: var(--font-logo);
+            font-weight: 700;
+            font-size: clamp(2.5rem, 10vw, 7rem); /* حجم خط متجاوب */
+            line-height: 0.9;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+        }
+
+        /* تأثير خط التحديد (Outline) للأبيض */
+        .hero h1 span.outline {
+            display: block;
+            color: transparent;
+            -webkit-text-stroke: 1.5px var(--text-color);
+        }
+
+        .hero p {
+            font-family: var(--font-main);
+            color: var(--dim-text);
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: 300;
+            margin-top: 30px;
+        }
+
+        /* معرض الأعمال */
+        .work {
+            padding: 100px 6%;
+            background-color: #050505; /* تباين خفيف جداً بين الأقسام */
+        }
+
+        .section-title {
+            font-family: var(--font-main);
+            font-size: 0.75rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--dim-text);
+            margin-bottom: 60px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 20px;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .image-item {
+            position: relative;
+            height: 450px;
+            overflow: hidden;
+            background: #111;
+            border: 1px solid #1a1a1a;
+            cursor: pointer;
+        }
+
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* الصور تظهر أبيض وأسود افتراضياً للفخامة */
+            filter: grayscale(100%);
+            transition: 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* عند مرور الماوس: تكبير وتلوين */
+        .image-item:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.08);
+        }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            opacity: 0;
+            transition: 0.5s ease;
+            background: rgba(0,0,0,0.7);
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .image-item:hover .image-overlay {
+            opacity: 1;
+            bottom: 40px;
+        }
+
+        .image-overlay span {
+            color: var(--text-color);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* زر التواصل */
+        .contact {
+            padding: 100px 10%;
+            text-align: center;
+            background: var(--bg-color);
+        }
+
+        .contact h2 {
+            font-family: var(--font-logo);
+            font-size: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 40px;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            border: 2px solid var(--text-color);
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: 0.4s;
+        }
+
+        .contact-btn:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+        }
+
+        /* التذييل */
+        footer {
+            padding: 50px;
+            text-align: center;
+            border-top: 1px solid #111;
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            color: #333;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">ADMFX<span>.</span>RAW</a>
+        <div class="nav-links">
+            <a href="#work">WORK</a>
+            <a href="#contact">CONTACT</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>
+            RAW<span>VISUALS</span>
+            <span class="outline">DIRECTOR</span>
+        </h1>
+        <p>Turning raw footage into iconic cinematic stories.</p>
+    </header>
+
+    <section id="work" class="work">
+        <div class="section-title">SELECTED WORKS</div>
+        <div class="image-grid">
+            
+            <div class="image-item">
+                <img src="img1.jpg" alt="Work 1">
+                <div class="image-overlay">
+                    <span>CINEMATIC CUT 01</span>
+                </div>
+            </div>
+            
+            <div class="image-item">
+                <img src="img2.jpg" alt="Work 2">
+                <div class="image-overlay">
+                    <span>MOTION EFFECTS 02</span>
+                </div>
+            </div>
+            
+            <div class="image-item">
+                <img src="img3.jpg" alt="Work 3">
+                <div class="image-overlay">
+                    <span>VISUAL STORY 03</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>Let's create together</h2>
+        <a href="mailto:your-email@gmail.com" class="contact-btn">Get In Touch</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 ADMFX-RAW - ALL RIGHTS RESERVED</p>
+    </footer>
+
+</body>
+</html>
